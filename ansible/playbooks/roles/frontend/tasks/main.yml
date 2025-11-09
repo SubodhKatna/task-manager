@@ -1,3 +1,41 @@
 #SPDX-License-Identifier: MIT-0
 ---
+# tasks file for frontend# SPDX-License-Identifier: MIT-0
+---
 # tasks file for frontend
+
+- name: Ensure Node.js is installed
+  become: yes
+  shell: |
+    if ! command -v node > /dev/null; then
+      curl -fsSL https://rpm.nodesource.com/setup_20.x | bash -
+      yum install -y nodejs
+    fi
+  args:
+    executable: /bin/bash
+
+- name: Install frontend dependencies (npm ci for clean install)
+  become: yes
+  npm:
+    path: /opt/task-manager/frontend
+    ci: yes
+
+- name: Build frontend using Vite
+  become: yes
+  command: npm run build
+  args:
+    chdir: /opt/task-manager/frontend
+  register: build_output
+  changed_when: "'built in' in build_output.stdout"
+
+- name: Ensure permissions on build folder
+  become: yes
+  file:
+    path: /opt/task-manager/frontend/dist
+    owner: ec2-user
+    group: ec2-user
+    recurse: yes
+
+- name: Show build output directory
+  debug:
+    msg: "Frontend build complete! Files are in: /opt/todo-app/todo-frontend/dist"

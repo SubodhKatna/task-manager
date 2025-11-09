@@ -1,3 +1,54 @@
-#SPDX-License-Identifier: MIT-0
+# SPDX-License-Identifier: MIT-0
 ---
 # tasks file for backend
+
+- name: Install backend dependencies
+  become: yes
+  npm:
+    path: /opt/task-manager/backend
+    state: present
+
+- name: Install PM2 globally
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+
+- name: Check if backend is already running in PM2
+  become: yes
+  command: pm2 list --no-color
+  register: pm2_list
+  changed_when: false
+
+- name: Debug PM2 process list
+  debug:
+    var: pm2_list.stdout_lines
+
+- name: Start backend with PM2 if not running
+  become: yes
+  command: "pm2 start npm --name backend -- start"
+  args:
+    chdir: /opt/task-manager/backend
+  when: "'backend' not in pm2_list.stdout"
+
+- name: Restart backend if already running
+  become: yes
+  command: "pm2 restart backend"
+  args:
+    chdir: /opt/task-manager/backend
+  when: "'backend' in pm2_list.stdout"
+
+- name: Save PM2 process list
+  become: yes
+  command: pm2 save
+
+- name: Enable PM2 startup on boot
+  become: yes
+  command: pm2 startup
+  register: pm2_startup
+  changed_when: false
+
+- name: Execute PM2 startup generated script if needed
+  become: yes
+  shell: "{{ pm2_startup.stdout }}"
+  when: "'sudo' in pm2_startup.stdout"
