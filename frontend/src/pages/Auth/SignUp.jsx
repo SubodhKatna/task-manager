@@ -4,7 +4,7 @@ import ProfilePhotoSelector from "../../components/inputs/ProfilePhotoSelector.j
 import Input from "../../components/inputs/Input.jsx";
 import { Link } from "react-router-dom"; // Added Link
 import { validateEmail } from "../../utils/helper.js"; // Correct import
-import axiosInstance from "../../utils/axiosinstance.js";
+import axiosInstance from "../../utils/axiosInstance.js";
 import { API_PATHS } from "../../utils/apiPaths.js";
 import { UserContext } from "../../context/userContent.jsx";
 import { useNavigate } from "react-router-dom";
