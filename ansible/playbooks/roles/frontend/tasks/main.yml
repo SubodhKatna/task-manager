@@ -1,14 +1,11 @@
-- name: Ensure Node.js is installed
-  become: yes
-  shell: |
-    if ! command -v node > /dev/null; then
-      curl -fsSL https://rpm.nodesource.com/setup_20.x | bash -
-      yum install -y nodejs
-    fi
-  args:
-    executable: /bin/bash
+- name: Check Node version again
+  command: node -v
+  register: node_v
 
-- name: Install frontend dependencies (npm ci for clean install)
+- debug:
+    msg: "Node version on system: {{ node_v.stdout }}"
+
+- name: Install frontend dependencies (npm ci)
   become: yes
   npm:
     path: /opt/task-manager/frontend
@@ -22,7 +19,7 @@
   register: build_output
   changed_when: "'built in' in build_output.stdout"
 
-- name: Ensure permissions on build folder
+- name: Fix build folder permissions
   become: yes
   file:
     path: /opt/task-manager/frontend/dist
@@ -32,4 +29,4 @@
 
 - name: Show build output directory
   debug:
-    msg: "Frontend build complete! Files are in: /opt/todo-app/todo-frontend/dist"
+    msg: "Frontend build complete! Files are in: /opt/task-manager/frontend/dist"

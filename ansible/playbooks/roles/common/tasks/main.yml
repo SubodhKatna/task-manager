@@ -1,17 +1,14 @@
 # SPDX-License-Identifier: MIT-0
 ---
 
-# Install Apache + Node + npm based on OS family
-- name: Install common packages (Apache + Node + npm)
+# Install Apache (without Node)
+- name: Install Apache
   become: yes
   package:
-    name:
-      - "{{ 'httpd' if ansible_os_family == 'RedHat' else 'apache2' }}"
-      - nodejs
-      - npm
+    name: "{{ 'httpd' if ansible_os_family == 'RedHat' else 'apache2' }}"
     state: present
 
-# Start and enable Apache service based on OS
+# Start and enable Apache service
 - name: Start and enable Apache
   become: yes
   service:
@@ -19,12 +16,33 @@
     state: started
     enabled: yes
 
+# Install Node 20 (Ubuntu + Amazon Linux + CentOS support)
+- name: Install Node 20.x
+  become: yes
+  shell: |
+    if command -v apt-get > /dev/null; then
+      curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+      sudo apt-get install -y nodejs
+    elif command -v yum > /dev/null; then
+      curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
+      sudo yum install -y nodejs
+    fi
+  args:
+    executable: /bin/bash
+
+- name: Verify Node version
+  command: node -v
+  register: node_v
+
+- debug:
+    msg: "Installed Node Version: {{ node_v.stdout }}"
+
 # Copy source code from repo to EC2
 - name: Copy Source Code to target EC2
   become: yes
   synchronize:
     src: "{{ playbook_dir }}/../../"
-    dest: "/opt/task-manager"     # ✅ updated
+    dest: "/opt/task-manager"
     delete: yes
     recursive: yes
     rsync_opts:

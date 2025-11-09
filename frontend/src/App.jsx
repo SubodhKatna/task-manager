@@ -12,7 +12,7 @@ import SignUp from "./pages/Auth/SignUp";
 import Dashboard from "./pages/Admin/Dashboard";
 import ManageTasks from "./pages/Admin/ManageTasks";
 import CreateTask from "./pages/Admin/CreateTask";
-import ManageUsers from "./pages/Admin/manageUsers";
+import ManageUsers from "./pages/Admin/ManageUsers";
 
 import UserDashboard from "./pages/User/UserDashboard";
 import MyTasks from "./pages/User/MyTasks";
