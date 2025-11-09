@@ -1,27 +1,30 @@
----
- - name: Adding SSh access to a security group
-      amazon.aws.ec2_group:
-        name: subodh-security
-        description: Security group for Ec2 instances
-        region: ap-south-1
-        rules:
-          - proto: tcp
-            from_port: 3002
-            to_port: 3002
-            cidr_ip: 0.0.0.0/0
-          - proto: tcp
-            from_port: 3000
-            to_port: 3000
-            cidr_ip: 0.0.0.0/0
-          - proto: tcp
-            from_port: 80
-            to_port: 80
-            cidr_ip: 0.0.0.0/0
-          - proto: tcp
-            from_port: 22
-            to_port: 22
-            cidr_ip: 0.0.0.0/0
-        rules_egress:
-          - proto: all
-            cidr_ip: 0.0.0.0/0
-      register: security_group
+- name: Create / Update Security Group for EC2
+  amazon.aws.ec2_group:
+    name: subodh-security
+    description: Security group for EC2 instances
+    region: ap-south-1
+    rules:
+      - proto: tcp
+        from_port: 3002
+        to_port: 3002
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 3000
+        to_port: 3000
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+    rules_egress:
+      - proto: -1
+        cidr_ip: 0.0.0.0/0
+  register: security_group
+
+- name: Debug SG output
+  debug:
+    var: security_group
