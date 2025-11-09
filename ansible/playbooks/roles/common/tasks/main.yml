@@ -1,27 +1,30 @@
-#SPDX-License-Identifier: MIT-0
+# SPDX-License-Identifier: MIT-0
 ---
-# tasks file for common
-- name: Install common Packages
+
+# Install Apache + Node + npm based on OS family
+- name: Install common packages (Apache + Node + npm)
   become: yes
   package:
     name:
-      - httpd
+      - "{{ 'httpd' if ansible_os_family == 'RedHat' else 'apache2' }}"
       - nodejs
-      - npm 
+      - npm
     state: present
 
+# Start and enable Apache service based on OS
 - name: Start and enable Apache
   become: yes
-  service: 
-    name: httpd
+  service:
+    name: "{{ 'httpd' if ansible_os_family == 'RedHat' else 'apache2' }}"
     state: started
     enabled: yes
 
-- name: Copy Source Cope
+# Copy source code from repo to EC2
+- name: Copy Source Code to target EC2
   become: yes
-  synchronize: 
+  synchronize:
     src: "{{ playbook_dir }}/../../"
-    dest: "/opt/todo-app"
+    dest: "/opt/task-manager"     # ✅ updated
     delete: yes
     recursive: yes
     rsync_opts:
