@@ -1,7 +1,3 @@
-# SPDX-License-Identifier: MIT-0
----
-# tasks file for ec2_launch
-
 - name: Get default VPC info
   amazon.aws.ec2_vpc_net_info:
     region: "{{ aws_region }}"

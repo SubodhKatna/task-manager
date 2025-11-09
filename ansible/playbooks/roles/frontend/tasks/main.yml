@@ -1,9 +1,3 @@
-#SPDX-License-Identifier: MIT-0
----
-# tasks file for frontend# SPDX-License-Identifier: MIT-0
----
-# tasks file for frontend
-
 - name: Ensure Node.js is installed
   become: yes
   shell: |
