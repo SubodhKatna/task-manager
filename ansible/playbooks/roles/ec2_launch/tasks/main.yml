@@ -48,11 +48,13 @@
       - "{{ security_group.group_id }}"
   register: ec2
 
-- name: Wait for SSH connection
-  wait_for_connection:
+- name: Wait for SSH to come up on the new EC2 instance
+  wait_for:
     host: "{{ ec2.instances[0].public_dns_name }}"
-    timeout: 300
+    port: 22
     delay: 20
+    timeout: 300
+    state: started
 
 - name: Add EC2 instance to inventory
   add_host:
@@ -64,4 +66,3 @@
 - name: Debug instance info
   debug:
     msg: "EC2 Launched at {{ ec2.instances[0].public_ip_address }} ({{ ec2.instances[0].public_dns_name }})"
-
