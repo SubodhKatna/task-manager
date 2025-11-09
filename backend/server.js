@@ -32,6 +32,8 @@ app.use("/api/reports", reportRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+const HOST = "0.0.0.0";
+
+app.listen(PORT, HOST, () => {
+  console.log(`✅ Server running on http://${HOST}:${PORT}`);
 });
