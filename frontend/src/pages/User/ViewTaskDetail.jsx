@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Import useNavigateimport axiosInstance from "../../utils/axiosInstance";
-import { API_PATHS } from "../../utils/apiPaths";
-import DashboardLayout from "../../components/layouts/DashboardLayout";
+import { API_PATHS } from "../../utils/apiPaths.js";
+import DashboardLayout from "../../components/layouts/DashboardLayout.jsx";
 import moment from "moment";
-import axiosInstance from "../../utils/axiosInstance";
-import AvatarGroup from "../../components/layouts/AvatarGroup";
+import axiosInstance from "../../utils/axiosInstance.js";
+import AvatarGroup from "../../components/layouts/AvatarGroup.jsx";
 import { LuSquareArrowOutUpRight, LuArrowLeft } from "react-icons/lu"; // Import LuArrowLeft
 const ViewTaskDetails = () => {
   const { id } = useParams();

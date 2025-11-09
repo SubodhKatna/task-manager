@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layouts/DashboardLayout";
-import { PRIORITY_DATA } from "../../utils/data";
-import axiosInstance from "../../utils/axiosInstance";
-import { API_PATHS } from "../../utils/apiPaths";
+import DashboardLayout from "../../components/layouts/DashboardLayout.jsx";
+import { PRIORITY_DATA } from "../../utils/data.js";
+import axiosInstance from "../../utils/axiosInstance.js";
+import { API_PATHS } from "../../utils/apiPaths.js";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { LuTrash2 } from "react-icons/lu";
-import SelectDropdown from "../../components/inputs/SelectDropdown";
-import SelectUsers from "../../components/inputs/SelectUsers";
-import TodoListInput from "../../components/inputs/TodoListInput";
-import AddAttachmentsInput from "../../components/inputs/AddAttachmentsInput";
-import Modal from "../../components/Modal";
-import DeleteAlert from "../../components/DeleteAlert";
+import SelectDropdown from "../../components/inputs/SelectDropdown.jsx";
+import SelectUsers from "../../components/inputs/SelectUsers.jsx";
+import TodoListInput from "../../components/inputs/TodoListInput.jsx";
+import AddAttachmentsInput from "../../components/inputs/AddAttachmentsInput.jsx";
+import Modal from "../../components/Modal.jsx";
+import DeleteAlert from "../../components/DeleteAlert.jsx";
 
 const CreateTask = () => {
   const location = useLocation();

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layouts/DashboardLayout";
+import DashboardLayout from "../../components/layouts/DashboardLayout.jsx";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axiosInstance";
-import { API_PATHS } from "../../utils/apiPaths";
-import TaskStatusTabs from "../../components/TaskStatusTabs";
-import TaskCard from "../../components/Cards/TaskCard";
+import axiosInstance from "../../utils/axiosInstance.js";
+import { API_PATHS } from "../../utils/apiPaths.jsx";
+import TaskStatusTabs from "../../components/TaskStatusTabs.jsx";
+import TaskCard from "../../components/Cards/TaskCard.jsx";
 import toast from "react-hot-toast";
 
 const MyTasks = () => {

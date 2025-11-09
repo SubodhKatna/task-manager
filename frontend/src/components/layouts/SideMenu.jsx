@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { SIDE_MENU_DATA, SIDE_MENU_USER_DATA } from "../../utils/data";
-import { UserContext } from "../../context/userContent";
+import { SIDE_MENU_DATA, SIDE_MENU_USER_DATA } from "../../utils/data.js";
+import { UserContext } from "../../context/userContent.jsx";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../../utils/axiosInstance.js";
 
 const SideMenu = ({ activeMenu }) => {
   const { user, clearUser } = useContext(UserContext);

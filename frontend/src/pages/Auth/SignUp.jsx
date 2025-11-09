@@ -1,14 +1,14 @@
 import React, { useState, useContext } from "react";
-import AuthLayout from "../../components/layouts/AuthLayout";
-import ProfilePhotoSelector from "../../components/inputs/ProfilePhotoSelector";
-import Input from "../../components/inputs/Input";
+import AuthLayout from "../../components/layouts/AuthLayout.jsx";
+import ProfilePhotoSelector from "../../components/inputs/ProfilePhotoSelector.jsx";
+import Input from "../../components/inputs/Input.jsx";
 import { Link } from "react-router-dom"; // Added Link
-import { validateEmail } from "../../utils/helper"; // Correct import
-import axiosInstance from "../../utils/axiosinstance";
-import { API_PATHS } from "../../utils/apiPaths";
-import { UserContext } from "../../context/userContent";
+import { validateEmail } from "../../utils/helper.js"; // Correct import
+import axiosInstance from "../../utils/axiosinstance.js";
+import { API_PATHS } from "../../utils/apiPaths.js";
+import { UserContext } from "../../context/userContent.jsx";
 import { useNavigate } from "react-router-dom";
-import uploadImage from "../../utils/uploadImage";
+import uploadImage from "../../utils/uploadImage.js";
 // FIX 1: Added missing import
 // LuTarget import removed (unused)
 

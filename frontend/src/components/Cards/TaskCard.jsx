@@ -1,6 +1,6 @@
 import React from "react";
-import Progress from "../Progress";
-import AvatarGroup from "../layouts/AvatarGroup";
+import Progress from "../Progress.jsx";
+import AvatarGroup from "../layouts/AvatarGroup.jsx";
 import { LuPaperclip } from "react-icons/lu";
 import moment from "moment";
 

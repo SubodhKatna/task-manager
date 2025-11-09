@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useUserAuth } from "../../hooks/useUserAuth";
+import { useUserAuth } from "../../hooks/useUserAuth.jsx";
 import { useContext } from "react";
-import { UserContext } from "../../context/userContent";
-import DashboardLayout from "../../components/layouts/DashboardLayout";
-import axiosInstance from "../../utils/axiosInstance";
-import { API_PATHS } from "../../utils/apiPaths";
+import { UserContext } from "../../context/userContent.jsx";
+import DashboardLayout from "../../components/layouts/DashboardLayout.jsx";
+import axiosInstance from "../../utils/axiosInstance.js";
+import { API_PATHS } from "../../utils/apiPaths.js";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { IoMdCard } from "react-icons/io";
-import { addThousandSeparators } from "../../utils/helper";
-import InfoCard from "../../components/Cards/InfoCard";
+import { addThousandSeparators } from "../../utils/helper.js";
+import InfoCard from "../../components/Cards/InfoCard.jsx";
 import { LuArrowRight } from "react-icons/lu";
-import TaskListTable from "../../components/TaskListTable";
-import CustomPieChart from "../../components/Charts/CustomPieChart";
-import CustomBarChart from "../../components/Charts/CustomBarChart";
+import TaskListTable from "../../components/TaskListTable.jsx";
+import CustomPieChart from "../../components/Charts/CustomPieChart.jsx";
+import CustomBarChart from "../../components/Charts/CustomBarChart.jsx";
 
 const COLORS = ["#8d51ff", "#00bbdb", "#7bce00"];
 

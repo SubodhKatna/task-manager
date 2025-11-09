@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import DashboardLayout from "../../components/layouts/DashboardLayout";
-import axiosInstance from "../../utils/axiosInstance";
-import { API_PATHS } from "../../utils/apiPaths";
+import DashboardLayout from "../../components/layouts/DashboardLayout.jsx";
+import axiosInstance from "../../utils/axiosInstance.js";
+import { API_PATHS } from "../../utils/apiPaths.js";
 import { LuFileSpreadsheet } from "react-icons/lu";
-import UserCard from "../../components/Cards/UserCard";
+import UserCard from "../../components/Cards/UserCard.jsx";
 import toast from "react-hot-toast";
 // ✅ Corrected import
 
