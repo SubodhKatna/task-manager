@@ -9,12 +9,10 @@
   copy:
     dest: /opt/task-manager/frontend/.env
     content: |
-      VITE_API_URL=http://{{ ec2.instances[0].public_ip_address }}:3000
+      VITE_API_URL=http://{{ inventory_hostname }}:3000
     owner: ec2-user
     group: ec2-user
     mode: "0600"
-
-    
 
 - name: Install frontend dependencies
   become: yes
