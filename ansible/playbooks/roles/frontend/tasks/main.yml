@@ -1,53 +1,38 @@
-# tasks file for frontend
-
 - name: Ensure frontend directory exists
   file:
     path: /opt/task-manager/frontend
     state: directory
-    owner: ubuntu
-    group: ubuntu
-    mode: '0755'
+    owner: ec2-user
+    group: ec2-user
 
-# ✅ Create .env file with Vite variable from GitHub Secrets
-- name: Write Vite environment variables to .env
+- name: Create .env for Vite
   copy:
     dest: /opt/task-manager/frontend/.env
     content: |
       VITE_API_URL="{{ VITE_API_URL }}"
-    owner: ubuntu
-    group: ubuntu
-    mode: '0600'
+    owner: ec2-user
+    group: ec2-user
+    mode: "0600"
 
-- name: Check Node version
-  command: node -v
-  register: node_v
-  changed_when: false
-
-- debug:
-    msg: "Node version on system: {{ node_v.stdout }}"
-
-- name: Install frontend dependencies (npm ci)
+- name: Install frontend dependencies
   become: yes
   npm:
     path: /opt/task-manager/frontend
     ci: yes
 
-- name: Build frontend using Vite
+- name: Build frontend
   become: yes
   command: npm run build
   args:
     chdir: /opt/task-manager/frontend
-  register: build_output
-  changed_when: "'built in' in build_output.stdout"
 
-- name: Fix build folder permissions
+- name: Fix build permissions
   become: yes
   file:
     path: /opt/task-manager/frontend/dist
-    owner: ubuntu
-    group: ubuntu
+    owner: ec2-user
+    group: ec2-user
     recurse: yes
 
-- name: Show build output directory
-  debug:
-    msg: "Frontend build complete! Files are in: /opt/task-manager/frontend/dist"
+- debug:
+    msg: "✅ Frontend built successfully"

@@ -1,32 +1,33 @@
-# SPDX-License-Identifier: MIT-0
----
-
-# Install Apache (without Node)
-- name: Install Apache
+- name: Update packages
   become: yes
-  package:
-    name: "{{ 'httpd' if ansible_os_family == 'RedHat' else 'apache2' }}"
+  yum:
+    name: "*"
+    state: latest
+
+- name: Install rsync (required for synchronize)
+  become: yes
+  yum:
+    name: rsync
     state: present
 
-# Start and enable Apache service
-- name: Start and enable Apache
+- name: Install Apache
+  become: yes
+  yum:
+    name: httpd
+    state: present
+
+- name: Start & enable Apache
   become: yes
   service:
-    name: "{{ 'httpd' if ansible_os_family == 'RedHat' else 'apache2' }}"
+    name: httpd
     state: started
     enabled: yes
 
-# Install Node 20 (Ubuntu + Amazon Linux + CentOS support)
-- name: Install Node 20.x
+- name: Install Node 20
   become: yes
   shell: |
-    if command -v apt-get > /dev/null; then
-      curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-      sudo apt-get install -y nodejs
-    elif command -v yum > /dev/null; then
-      curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
-      sudo yum install -y nodejs
-    fi
+    curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
+    sudo yum install -y nodejs
   args:
     executable: /bin/bash
 
@@ -35,10 +36,9 @@
   register: node_v
 
 - debug:
-    msg: "Installed Node Version: {{ node_v.stdout }}"
+    msg: "Node installed: {{ node_v.stdout }}"
 
-# Copy source code from repo to EC2
-- name: Copy Source Code to target EC2
+- name: Copy project to EC2
   become: yes
   synchronize:
     src: "{{ playbook_dir }}/../../"
@@ -49,3 +49,11 @@
       - "--exclude=.git"
       - "--exclude=.github"
       - "--exclude=ansible"
+
+- name: Set ownership
+  become: yes
+  file:
+    path: /opt/task-manager
+    owner: ec2-user
+    group: ec2-user
+    recurse: yes
