@@ -34,7 +34,7 @@ jobs:
 
     - name: Run playbook
       run: |
-        ansible-playbook ./ansible/playbooks/site.yml \
+        ansible-playbook ./ansible/playbooks/provision_and_configure_server.yml \
         -e "aws_region=${{ secrets.AWS_REGION }}" \
         -e "ec2_key_name=${{ secrets.EC2_KEY_NAME }}" \
         -e "ec2_instance_type=${{ secrets.EC2_INSTANCE_TYPE }}" \
