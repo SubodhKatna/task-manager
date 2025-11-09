@@ -55,4 +55,4 @@
   command: pm2 startup systemd -u ec2-user --hp /home/ec2-user
 
 - debug:
-    msg: "✅ Frontend deployed and running at http://{{ ec2.instances[0].public_ip_address }}"
+    msg: "✅ Frontend deployed & started via PM2. Run 'pm2 list' on the server to verify. Access via the instance public IP shown in EC2 console."
