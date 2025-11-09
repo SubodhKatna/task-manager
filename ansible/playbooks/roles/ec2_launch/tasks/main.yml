@@ -33,13 +33,7 @@
         cidr_ip: 0.0.0.0/0
   register: security_group
 
-# ✅ NEW STEP: upload key into AWS
-- name: Import SSH Key to AWS as Key Pair
-  amazon.aws.ec2_key:
-    name: "{{ ec2_key_name }}"
-    key_material: "{{ lookup('file', ec2_ssh_key_path) }}"
-    region: "{{ aws_region }}"
-  register: imported_key
+# ❗ No key import here, we already have key in AWS
 
 - name: Launch EC2 instance
   amazon.aws.ec2_instance:
