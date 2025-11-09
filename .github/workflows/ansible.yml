@@ -44,7 +44,11 @@ jobs:
           -e "ec2_key_name=${{ secrets.EC2_KEY_NAME }}" \
           -e "ec2_instance_type=${{ secrets.EC2_INSTANCE_TYPE }}" \
           -e "ec2_ami_id=${{ secrets.EC2_AMI_ID }}" \
-          -e "ec2_ssh_key_path=~/.ssh/ec2_key.pem"
-
+          -e "ec2_ssh_key_path=~/.ssh/ec2_key.pem" \
+          -e "PORT=${{ secrets.PORT }}" \
+          -e "MONGO_URI='${{ secrets.MONGO_URI }}'" \
+          -e "JWT_SECRET='${{ secrets.JWT_SECRET }}'" \
+          -e "ADMIN_INVITE_CODE='${{ secrets.ADMIN_INVITE_CODE }}'" \
+          -e "VITE_API_URL=${{ secrets.VITE_API_URL }}"
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"

@@ -1,6 +1,27 @@
-- name: Check Node version again
+# tasks file for frontend
+
+- name: Ensure frontend directory exists
+  file:
+    path: /opt/task-manager/frontend
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+# ✅ Create .env file with Vite variable from GitHub Secrets
+- name: Write Vite environment variables to .env
+  copy:
+    dest: /opt/task-manager/frontend/.env
+    content: |
+      VITE_API_URL="{{ VITE_API_URL }}"
+    owner: ubuntu
+    group: ubuntu
+    mode: '0600'
+
+- name: Check Node version
   command: node -v
   register: node_v
+  changed_when: false
 
 - debug:
     msg: "Node version on system: {{ node_v.stdout }}"
@@ -23,8 +44,8 @@
   become: yes
   file:
     path: /opt/task-manager/frontend/dist
-    owner: ec2-user
-    group: ec2-user
+    owner: ubuntu
+    group: ubuntu
     recurse: yes
 
 - name: Show build output directory

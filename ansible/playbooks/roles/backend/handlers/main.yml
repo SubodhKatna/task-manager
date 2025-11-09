@@ -1,3 +1,4 @@
-#SPDX-License-Identifier: MIT-0
 ---
-# handlers file for ec2_launch
+- name: Restart backend
+  become: yes
+  command: pm2 restart backend
