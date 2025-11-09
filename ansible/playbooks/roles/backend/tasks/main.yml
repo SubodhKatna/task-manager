@@ -27,9 +27,13 @@
   args:
     chdir: /opt/task-manager/backend
 
-- name: Save PM2 state
+- name: Save PM2 process list
   become: yes
   command: pm2 save
 
+- name: Enable PM2 startup service
+  become: yes
+  command: pm2 startup -u ec2-user --hp /home/ec2-user
+
 - debug:
-    msg: "✅ Backend started on PM2"
+    msg: "✅ Backend running & auto-start enabled"
