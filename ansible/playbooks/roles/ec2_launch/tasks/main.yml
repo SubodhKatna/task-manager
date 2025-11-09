@@ -1,37 +1,54 @@
-- name: Create / Update Security Group for EC2
-  amazon.aws.ec2_group:
-    name: subodh-security
-    description: Security group for EC2 instances
-    region: ap-south-1
-    rules:
-      - proto: tcp
-        from_port: 3002
-        to_port: 3002
-        cidr_ip: 0.0.0.0/0
-      - proto: tcp
-        from_port: 3000
-        to_port: 3000
-        cidr_ip: 0.0.0.0/0
-      - proto: tcp
-        from_port: 80
-        to_port: 80
-        cidr_ip: 0.0.0.0/0
-      - proto: tcp
-        from_port: 22
-        to_port: 22
-        cidr_ip: 0.0.0.0/0
-    rules_egress:
-      - proto: -1
-        cidr_ip: 0.0.0.0/0
-  register: security_group
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for common
+- name: Install common Packages
+  become: yes
+  package:
+    name:
+      - httpd
+      - nodejs
+      - npm
+    state: present
 
-- name: Launch Ec2 instnace
-  amazon.aws.ec2_instance:
-    name: Ansible-created-instance
-    key_name: "{{ ec2_key_name }}"
-    region: "{{ aws_region }}"
-    instance_type: "{{ ec2_instance_type }}"
-    image_id: "{{ ec2_ami_id }}"
-    count: 1
-    security_group: "{{ security_group.group_id }}"
-  register: ec2
+- name: Start and enable Apache
+  become: yes
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Copy Source Cope
+  become: yes
+  synchronize:
+    src: "{{ playbook_dir }}/../../"
+    dest: "/opt/todo-app"
+    delete: yes
+    recursive: yes
+    rsync_opts:
+      - "--exclude=.git"
+      - "--exclude=.github"
+      - "--exclude=ansible"
+
+- name: Waiting for instance to be ready
+  wait_for:
+    host: "{{ ec2.instances[0].public_dns_name }}"
+    port: 22
+    delay: 30
+    timeout: 300
+    state: started
+  when: ec2.instances is defined and ec2.instances | length > 0
+
+- name: Add the Ec2 instance to the inventory dynamically
+  add_host:
+    name: "{{ec2.instances[0].public_dns_name}}"
+    groups: launched_ec2_instances
+    ansible_ssh_private_key_file: "{{ ec2_ssh_key_path }}"
+    ansible_user: ec2-user
+
+- name: Debug SSH Key Path
+  debug:
+    var: ec2_ssh_key_path
+
+- name: Debug dynamic inventory
+  debug:
+    var: groups['launched_ec2_instances']
